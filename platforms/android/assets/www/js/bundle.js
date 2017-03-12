@@ -25276,7 +25276,7 @@ exports = module.exports = __webpack_require__(90)();
 
 
 // module
-exports.push([module.i, ".transactions-page {\n  font-size: 16pt;\n}\n.transactions-page table {\n  width: 100%;\n}\n.transactions-page table td,\n.transactions-page table tr {\n  border-bottom: 1px solid grey;\n  border-bottom-style: dashed;\n}\n.transaction__date {\n  text-align: left;\n}\n.transaction__amount {\n  text-align: right;\n}\n.transaction__amount::before {\n  content: \"$\";\n}\n.transaction__amount--positive {\n  color: green;\n}\n.transaction__amount--negative {\n  color: darkred;\n}\n", ""]);
+exports.push([module.i, ".transactions-page {\n  font-size: 22pt;\n}\n.transactions-page table {\n  width: 100%;\n}\n.transactions-page table td,\n.transactions-page table tr {\n  border-bottom: 1px solid grey;\n  border-bottom-style: dashed;\n}\n.transaction__date {\n  text-align: left;\n}\n.transaction__amount {\n  text-align: right;\n}\n.transaction__amount::before {\n  content: \"$\";\n}\n.transaction__amount--positive {\n  color: green;\n}\n.transaction__amount--negative {\n  color: darkred;\n}\n", ""]);
 
 // exports
 
