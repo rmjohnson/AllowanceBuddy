@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import TransactionsData from '../data/transactions-data';
 
 require('../less/main.less');
 
@@ -10,10 +11,8 @@ export default class MainPage extends Component {
 	}
 
 	componentDidMount() {
-		// get balance from database
-		const balance = 200;
 		this.setState({ 
-			balance: balance
+			balance: TransactionsData.getBalance(),
 		});
 	}
 
@@ -24,10 +23,14 @@ export default class MainPage extends Component {
 	}
 
 	submitTransaction() {
-		// add transaction to database
-		const { balance, transactionAmount } = this.state;
+		const { transactionAmount } = this.state;
+		// Always assume we should be adding a negative amount
+		const negativeTransactionAmount = -Math.abs(transactionAmount);
+		TransactionsData.addTransaction(negativeTransactionAmount);
+
+		// Reset the transaction amount state to clear the input
 		this.setState({
-			balance: balance - transactionAmount,
+			balance: TransactionsData.getBalance(),
 			transactionAmount: '',
 		});
 	}

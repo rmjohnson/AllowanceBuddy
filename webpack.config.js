@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const config = {
-	entry: path.resolve(__dirname, 'react/app.js'),
+	entry: path.resolve(__dirname, 'src/app.js'),
 	output: {
 		path: path.resolve(__dirname, 'www/js'),
 		filename: 'bundle.js',

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import TransactionsData from '../data/transactions-data';
 
 require('../less/transactions.less');
 
@@ -10,28 +11,7 @@ export default class TransactionsPage extends Component {
 
 	componentDidMount() {
 		// get transactions from database
-		const transactions = [
-			{
-				id: 4,
-				date: "3/15/2017",
-				amount: 100,
-			},
-			{
-				id: 3,
-				date: "3/11/2017",
-				amount: -10,
-			},
-			{
-				id: 2,
-				date: "3/09/2017",
-				amount: -50,
-			},
-			{
-				id: 1,
-				date: "3/08/2017",
-				amount: -100,
-			}
-		];
+		const transactions = TransactionsData.getTransactions();
 		this.setState({ 
 			transactions: transactions
 		});
