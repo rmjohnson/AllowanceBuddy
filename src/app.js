@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import MainPage from './pages/main-page';
 import TransactionsPage from './pages/transactions-page';
 import Menu from './components/menu';
+import TransactionsData from './data/transactions-data';
+
+require("babel-core/register");
+require("babel-polyfill");
 
 class App extends Component {
 	state = {
@@ -17,6 +21,8 @@ class App extends Component {
 	}
 
 	componentDidMount(){
+		TransactionsData.initializeDatabase();
+
 		window.addEventListener('native.keyboardhide', () => this.setState({ keyboardVisible: false }), false);
 		window.addEventListener('native.keyboardshow', () => this.setState({ keyboardVisible: true }), false);
 	}

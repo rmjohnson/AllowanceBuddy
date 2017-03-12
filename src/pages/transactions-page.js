@@ -10,10 +10,10 @@ export default class TransactionsPage extends Component {
 	}
 
 	componentDidMount() {
-		// get transactions from database
-		const transactions = TransactionsData.getTransactions();
-		this.setState({ 
-			transactions: transactions
+		TransactionsData.getTransactions().then(transactions => {
+			this.setState({ 
+				transactions: transactions
+			});
 		});
 	}
 

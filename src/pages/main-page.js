@@ -11,8 +11,10 @@ export default class MainPage extends Component {
 	}
 
 	componentDidMount() {
-		this.setState({ 
-			balance: TransactionsData.getBalance(),
+		TransactionsData.getBalance().then(balance => {
+			this.setState({ 
+				balance: balance,
+			});
 		});
 	}
 
@@ -26,12 +28,12 @@ export default class MainPage extends Component {
 		const { transactionAmount } = this.state;
 		// Always assume we should be adding a negative amount
 		const negativeTransactionAmount = -Math.abs(transactionAmount);
-		TransactionsData.addTransaction(negativeTransactionAmount);
-
-		// Reset the transaction amount state to clear the input
-		this.setState({
-			balance: TransactionsData.getBalance(),
-			transactionAmount: '',
+		TransactionsData.addTransaction(negativeTransactionAmount).then(newBalance => {
+			// Reset the transaction amount state to clear the input
+			this.setState({
+				balance: newBalance,
+				transactionAmount: '',
+			});
 		});
 	}
 

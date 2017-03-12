@@ -2,7 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 const config = {
-	entry: path.resolve(__dirname, 'src/app.js'),
+	entry: [
+		path.resolve(__dirname, 'src/app.js'),
+		'babel-polyfill',
+	],
 	output: {
 		path: path.resolve(__dirname, 'www/js'),
 		filename: 'bundle.js',

@@ -1,55 +1,64 @@
 import _ from 'lodash';
 import moment from 'moment';
+import websql from 'websql-promisified';
 
-const privates = {
-	transactions: [
-		{
-			id: 3,
-			date: moment('3/12/2017'),
-			amount: 200,
-		},
-		{
-			id: 2,
-			date: moment('3/11/2017'),
-			amount: -10,
-		},
-		{
-			id: 1,
-			date: moment('3/09/2017'),
-			amount: -50,
-		},
-		{
-			id: 0,
-			date: moment('3/08/2017'),
-			amount: -100,
-		}
-	],
-	dateFormat: 'MM/DD/YYYY'
-};
+const dateFormat = 'MM/DD/YYYY';
+const db = window.openDatabase('allowance_buddy', 'v1', 'AllowanceBuddy Database', 104857600);
+const websqlPromise = websql(db);
 
 export default {
-	getBalance() {
-		// for now just sum transactions but we could probably cache this
-		return _.sumBy(this.getTransactions(), t => t.amount);
+	async initializeDatabase() {
+		const createTableSql = `
+CREATE TABLE IF NOT EXISTS transactions (
+	id INTEGER PRIMARY KEY ASC,
+	date TEXT,
+	amount REAL
+)`
+		// Also add income now if needed
+		await websqlPromise.transaction(tx => {
+			tx.executeSql(createTableSql);
+		});
 	},
 
-	getTransactions() {
-		return _.chain(privates.transactions)
+	async getBalance() {
+		// for now just sum transactions but we could probably cache this
+		return _.sumBy(await this.getTransactions(), t => t.amount);
+	},
+
+	async getTransactions() {
+		const selectSql = `
+SELECT
+	id,
+	date,
+	amount
+FROM transactions`;
+
+		const results = await websqlPromise.transaction(tx => {
+			tx.executeSql(selectSql);
+		});
+		const transactions = results[0].rows;
+		const mappedTransactions = _.chain(transactions)
 			.orderBy(t => t.date, 'desc')
 			.map(t => ({
 				id: t.id,
-				date: t.date.format(privates.dateFormat),
+				date: moment(t.date).format(dateFormat),
 				amount: t.amount,
 			}))
-			.value();
+			.value()
+		return mappedTransactions;
 	},
 
-	addTransaction(amount) {
-		const transaction = {
-			id: privates.transactions.length, //hack
-			date: moment(),
-			amount: amount
-		};
-		privates.transactions.push(transaction);
-	}
+	async addTransaction(amount) {
+		const insertSql = `
+INSERT INTO transactions
+(date, amount)
+VALUES
+(?, ?)`;
+		const parameters = [moment(), amount];
+		await websqlPromise.transaction(tx => {
+			tx.executeSql(insertSql, parameters);
+		});
+
+		return await this.getBalance();
+	},
 }
