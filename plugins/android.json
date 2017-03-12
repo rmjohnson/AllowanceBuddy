@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.johnsonsoftware.allowancebuddy"
+        },
+        "ionic-plugin-keyboard": {
+            "PACKAGE_NAME": "com.johnsonsoftware.allowancebuddy"
         }
     },
     "dependent_plugins": {}
